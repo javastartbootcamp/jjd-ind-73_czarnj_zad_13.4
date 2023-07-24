@@ -30,6 +30,32 @@ public class CustomList<T> {
         nodesAmount++;
     }
 
+    public void add(int index, T element) {
+        if (index > nodesAmount || index < 0) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+        if (index == 0) {
+            Node<T> node = firstNode;
+            Node<T> newNode = new Node<>(element, null, node);
+            node.setPreviousNode(newNode);
+            firstNode = newNode;
+            nodesAmount++;
+        } else if (index == nodesAmount) {
+            Node<T> node = lastNode;
+            Node<T> newNode = new Node<>(element, node, null);
+            node.setNextNode(newNode);
+            lastNode = newNode;
+            nodesAmount++;
+        } else {
+            Node<T> node = getNodeAtIndex(index);
+            Node<T> previousNode = node.getPreviousNode();
+            Node<T> newNode = new Node<>(element, previousNode, node);
+            previousNode.setNextNode(newNode);
+            node.setPreviousNode(newNode);
+            nodesAmount++;
+        }
+    }
+
     public int size() {
         return nodesAmount;
     }
@@ -57,32 +83,6 @@ public class CustomList<T> {
             nextNode.setPreviousNode(previousNode);
         }
         nodesAmount--;
-    }
-
-    public void add(int index, T element) {
-        if (index > nodesAmount || index < 0) {
-            throw new ArrayIndexOutOfBoundsException();
-        }
-        if (index == 0) {
-            Node<T> node = firstNode;
-            Node<T> newNode = new Node<>(element, null, node);
-            node.setPreviousNode(newNode);
-            firstNode = newNode;
-            nodesAmount++;
-        } else if (index == nodesAmount) {
-            Node<T> node = lastNode;
-            Node<T> newNode = new Node<>(element, node, null);
-            node.setNextNode(newNode);
-            lastNode = newNode;
-            nodesAmount++;
-        } else {
-            Node<T> node = getNodeAtIndex(index);
-            Node<T> previousNode = node.getPreviousNode();
-            Node<T> newNode = new Node<>(element, previousNode, node);
-            previousNode.setNextNode(newNode);
-            node.setPreviousNode(newNode);
-            nodesAmount++;
-        }
     }
 
     private Node<T> getNodeAtIndex(int index) {
